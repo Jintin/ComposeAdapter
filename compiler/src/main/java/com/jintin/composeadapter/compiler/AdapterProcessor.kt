@@ -103,7 +103,7 @@ class AdapterProcessor : AbstractProcessor() {
             holder.model
         } catch (e: MirroredTypeException) {
             val className = getClassName(e.typeMirror)
-            val viewType = "TYPE_" + className.simpleName().toUpperCase()
+            val viewType = className.simpleName().toConstFormat()
             val layoutId = if (holder.layout == -1) {
                 layoutMap[className] ?: return null
             } else {
@@ -112,6 +112,12 @@ class AdapterProcessor : AbstractProcessor() {
             return ViewHolderInfo(className, viewType, layoutId)
         }
         return null
+    }
+
+    private fun String.toConstFormat(): String {
+        val regex = "([a-z])([A-Z]+)"
+        val replacement = "$1_$2"
+        return "TYPE_" + this.replace(regex.toRegex(), replacement).toUpperCase()
     }
 
     private fun getClassName(typeMirror: TypeMirror): ClassName {

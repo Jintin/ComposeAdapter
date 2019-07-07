@@ -12,9 +12,9 @@ class SampleAdapter(private val list: List<String>) : SampleAdapterHelper() {
 
     override fun getItemViewType(position: Int): Int {
         return if (position % 2 == 0) {
-            TYPE_VIEWHOLDER1
+            TYPE_VIEW_HOLDER1
         } else {
-            TYPE_VIEWHOLDER2
+            TYPE_VIEW_HOLDER2
         }
     }
 
