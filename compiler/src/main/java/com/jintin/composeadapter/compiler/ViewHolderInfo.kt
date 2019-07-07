@@ -6,5 +6,5 @@ import com.squareup.javapoet.ClassName
 class ViewHolderInfo(
     val className: ClassName,
     val viewType: String,
-    val layoutId: Int
+    var layoutId: Int
 )
