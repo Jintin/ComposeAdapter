@@ -1,10 +1,14 @@
 apply plugin: 'java-library'
 apply plugin: 'kotlin'
+apply plugin: 'maven-publish'
+apply plugin: 'com.jfrog.bintray'
 
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
 }
 
+version = "0.1.0"
+group = "com.github.jintin"
 sourceCompatibility = "8"
 targetCompatibility = "8"
 
@@ -16,5 +20,64 @@ compileKotlin {
 compileTestKotlin {
     kotlinOptions {
         jvmTarget = "1.8"
+    }
+}
+
+tasks.register("sourcesJar", Jar) {
+    from sourceSets.main.allJava
+    classifier "sources"
+}
+
+tasks.register("javadocJar", Jar) {
+    from javadoc
+    classifier "javadoc"
+}
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            from components.java
+            artifact sourcesJar
+            artifact javadocJar
+            pom {
+                name = "ComposeAdapter"
+                description = "ComposeAdapter is an Android tool to compose your Adapter with various ViewHolder by simple Annotations."
+                url = "https://github.com/Jintin/ComposeAdapter"
+                licenses {
+                    license {
+                        name = "MIT"
+                        url = "https://github.com/Jintin/ComposeAdapter/blob/master/LICENSE"
+                    }
+                }
+                developers {
+                    developer {
+                        id = "Jintin"
+                        name = "Jintin Lin"
+                        email = "jintinapps@gmail.com"
+                    }
+                }
+                scm {
+                    connection = "scm:git:https://github.com/Jintin/ComposeAdapter.git"
+                    developerConnection = "scm:git:https://github.com/Jintin/ComposeAdapter.git"
+                    url = "https://github.com/Jintin/ComposeAdapter"
+                }
+            }
+        }
+    }
+}
+
+Properties properties = new Properties()
+properties.load(project.rootProject.file('local.properties').newDataInputStream())
+
+bintray {
+    user = properties.getProperty("bintray.user")
+    key = properties.getProperty("bintray.apikey")
+    publications = ['mavenJava']
+    pkg {
+        repo = 'maven'
+        name = 'ComposeAdapter'
+
+        vcsUrl = 'https://github.com/Jintin/ComposeAdapter.git'
+        licenses = ['MIT']
     }
 }
