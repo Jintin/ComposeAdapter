@@ -2,6 +2,14 @@
 
 ComposeAdapter is an Android tool to compose your Adapter with various ViewHolder by simple Annotations.
 
+## Install
+
+```groovy
+implementation 'com.github.jintin:composeadapter:0.1.0'
+kapt 'com.github.jintin:composeadapter-compiler:0.1.0'
+
+```
+
 ## Usage
 
 1. Add `@ViewHolder` annotation to your Adapter with layout and model information.

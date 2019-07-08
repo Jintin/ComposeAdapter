@@ -28,10 +28,12 @@ android {
 dependencies {
     implementation project(":annotations")
     kapt project(":compiler")
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
+//    implementation 'com.github.jintin:composeadapter:0.1.0'
+//    kapt 'com.github.jintin:composeadapter-compiler:0.1.0'
     implementation 'androidx.appcompat:appcompat:1.0.2'
     implementation 'androidx.core:core-ktx:1.0.2'
     implementation 'androidx.recyclerview:recyclerview:1.0.0'
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test:runner:1.2.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
