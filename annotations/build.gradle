@@ -36,6 +36,7 @@ tasks.register("javadocJar", Jar) {
 publishing {
     publications {
         mavenJava(MavenPublication) {
+            artifactId 'composeadapter'
             from components.java
             artifact sourcesJar
             artifact javadocJar
