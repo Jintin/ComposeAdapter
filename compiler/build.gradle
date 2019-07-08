@@ -28,7 +28,6 @@ compileTestKotlin {
     }
 }
 
-
 tasks.register("sourcesJar", Jar) {
     from sourceSets.main.allJava
     classifier "sources"
@@ -42,6 +41,7 @@ tasks.register("javadocJar", Jar) {
 publishing {
     publications {
         mavenJava(MavenPublication) {
+            artifactId 'composeadapter-compiler'
             from components.java
             artifact sourcesJar
             artifact javadocJar
