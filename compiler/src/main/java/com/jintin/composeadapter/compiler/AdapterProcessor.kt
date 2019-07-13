@@ -33,7 +33,7 @@ class AdapterProcessor : AbstractProcessor() {
         for (annotatedElement in roundEnvironment.getElementsAnnotatedWith(HolderLayout::class.java)) {
             if (annotatedElement.kind != ElementKind.CLASS) {
                 error(ERROR_HOLDER_LAYOUT, annotatedElement)
-                return false
+                return true
             }
             val className = getClassName(annotatedElement)
             val layout = annotatedElement.getAnnotation(HolderLayout::class.java)
@@ -42,27 +42,27 @@ class AdapterProcessor : AbstractProcessor() {
         for (annotatedElement in roundEnvironment.getElementsAnnotatedWith(ViewHolders::class.java)) {
             if (annotatedElement.kind != ElementKind.CLASS) {
                 error(ERROR_VIEW_HOLDERS, annotatedElement)
-                return false
+                return true
             }
             val className = getClassName(annotatedElement)
             val holders = annotatedElement.getAnnotation(ViewHolders::class.java)
             for (holder in holders.value.reversed()) {
                 if (!parseViewHolder(className, holder, layoutMap, result)) {
                     error(ERROR_HOLDER_CREATE, annotatedElement)
-                    return false
+                    return true
                 }
             }
         }
         for (annotatedElement in roundEnvironment.getElementsAnnotatedWith(ViewHolder::class.java)) {
             if (annotatedElement.kind != ElementKind.CLASS) {
                 error(ERROR_VIEW_HOLDER, annotatedElement)
-                return false
+                return true
             }
             val className = getClassName(annotatedElement)
             val holder = annotatedElement.getAnnotation(ViewHolder::class.java)
             if (!parseViewHolder(className, holder, layoutMap, result)) {
                 error(ERROR_HOLDER_CREATE, annotatedElement)
-                return false
+                return true
             }
         }
 
