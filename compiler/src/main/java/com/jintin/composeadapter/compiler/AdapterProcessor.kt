@@ -1,7 +1,7 @@
 package com.jintin.composeadapter.compiler
 
 import com.google.auto.service.AutoService
-import com.jintin.composeadapter.annotations.HolderLayout
+import com.jintin.composeadapter.annotations.BindLayout
 import com.jintin.composeadapter.annotations.BindHolder
 import com.jintin.composeadapter.annotations.BindHolders
 import com.squareup.javapoet.ClassName
@@ -30,13 +30,13 @@ class AdapterProcessor : AbstractProcessor() {
     override fun process(set: Set<TypeElement>, roundEnvironment: RoundEnvironment): Boolean {
         val result = HashMap<ClassName, MutableList<BindHolderInfo>>()
         val layoutMap = HashMap<ClassName, Int>()
-        for (annotatedElement in roundEnvironment.getElementsAnnotatedWith(HolderLayout::class.java)) {
+        for (annotatedElement in roundEnvironment.getElementsAnnotatedWith(BindLayout::class.java)) {
             if (annotatedElement.kind != ElementKind.CLASS) {
                 error(ERROR_HOLDER_LAYOUT, annotatedElement)
                 return true
             }
             val className = getClassName(annotatedElement)
-            val layout = annotatedElement.getAnnotation(HolderLayout::class.java)
+            val layout = annotatedElement.getAnnotation(BindLayout::class.java)
             layoutMap[className] = layout.layout
         }
         for (annotatedElement in roundEnvironment.getElementsAnnotatedWith(BindHolders::class.java)) {
@@ -87,7 +87,7 @@ class AdapterProcessor : AbstractProcessor() {
     }
 
     override fun getSupportedAnnotationTypes() = setOf(
-        HolderLayout::class.java.canonicalName,
+        BindLayout::class.java.canonicalName,
         BindHolder::class.java.canonicalName,
         BindHolders::class.java.canonicalName
     )
@@ -138,7 +138,7 @@ class AdapterProcessor : AbstractProcessor() {
     }
 
     companion object {
-        private const val ERROR_HOLDER_LAYOUT = "Only class can be annotated with HolderLayout"
+        private const val ERROR_HOLDER_LAYOUT = "Only class can be annotated with BindLayout"
         private const val ERROR_VIEW_HOLDERS = "Only class can be annotated with BindHolders"
         private const val ERROR_VIEW_HOLDER = "Only class can be annotated with BindHolder"
         private const val ERROR_HOLDER_CREATE = "Can't generate BindHolder"
