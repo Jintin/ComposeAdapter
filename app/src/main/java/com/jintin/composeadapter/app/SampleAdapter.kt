@@ -3,11 +3,11 @@ package com.jintin.composeadapter.app
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import com.jintin.composeadapter.annotations.HolderLayout
-import com.jintin.composeadapter.annotations.ViewHolder
+import com.jintin.composeadapter.annotations.BindHolder
 import kotlinx.android.synthetic.main.item_holder1.view.*
 
-@ViewHolder(model = ViewHolder1::class)
-@ViewHolder(layout = R.layout.item_holder2, model = ViewHolder2::class)
+@BindHolder(model = ViewHolder1::class)
+@BindHolder(layout = R.layout.item_holder2, model = ViewHolder2::class)
 class SampleAdapter(private val list: List<String>) : SampleAdapterHelper() {
 
     override fun getItemViewType(position: Int): Int {

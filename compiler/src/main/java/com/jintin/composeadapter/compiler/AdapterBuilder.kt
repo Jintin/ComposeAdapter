@@ -8,7 +8,7 @@ import javax.lang.model.element.Modifier
 
 class AdapterBuilder(
     private val filer: Filer,
-    private val input: Map<ClassName, List<ViewHolderInfo>>
+    private val input: Map<ClassName, List<BindHolderInfo>>
 ) {
 
     fun generate() {
@@ -47,7 +47,7 @@ class AdapterBuilder(
             Modifier.PROTECTED
         ).initializer(index.toString()).build()
 
-    private fun MethodSpec.Builder.generateViewHolderBlock(info: ViewHolderInfo) {
+    private fun MethodSpec.Builder.generateViewHolderBlock(info: BindHolderInfo) {
         val viewType = info.viewType
         beginControlFlow("case $viewType:")
             .addCode(
@@ -60,7 +60,7 @@ class AdapterBuilder(
             .endControlFlow()
     }
 
-    private fun generateOnCreateViewHolder(infoList: List<ViewHolderInfo>): MethodSpec.Builder {
+    private fun generateOnCreateViewHolder(infoList: List<BindHolderInfo>): MethodSpec.Builder {
         val methodSpec = MethodSpec.methodBuilder("onCreateViewHolder")
             .addModifiers(Modifier.PUBLIC)
             .addAnnotation(Override::class.java)

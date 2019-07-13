@@ -2,8 +2,8 @@ package com.jintin.composeadapter.compiler
 
 import com.google.auto.service.AutoService
 import com.jintin.composeadapter.annotations.HolderLayout
-import com.jintin.composeadapter.annotations.ViewHolder
-import com.jintin.composeadapter.annotations.ViewHolders
+import com.jintin.composeadapter.annotations.BindHolder
+import com.jintin.composeadapter.annotations.BindHolders
 import com.squareup.javapoet.ClassName
 import javax.annotation.processing.*
 import javax.lang.model.SourceVersion
@@ -28,7 +28,7 @@ class AdapterProcessor : AbstractProcessor() {
     }
 
     override fun process(set: Set<TypeElement>, roundEnvironment: RoundEnvironment): Boolean {
-        val result = HashMap<ClassName, MutableList<ViewHolderInfo>>()
+        val result = HashMap<ClassName, MutableList<BindHolderInfo>>()
         val layoutMap = HashMap<ClassName, Int>()
         for (annotatedElement in roundEnvironment.getElementsAnnotatedWith(HolderLayout::class.java)) {
             if (annotatedElement.kind != ElementKind.CLASS) {
@@ -39,13 +39,13 @@ class AdapterProcessor : AbstractProcessor() {
             val layout = annotatedElement.getAnnotation(HolderLayout::class.java)
             layoutMap[className] = layout.layout
         }
-        for (annotatedElement in roundEnvironment.getElementsAnnotatedWith(ViewHolders::class.java)) {
+        for (annotatedElement in roundEnvironment.getElementsAnnotatedWith(BindHolders::class.java)) {
             if (annotatedElement.kind != ElementKind.CLASS) {
                 error(ERROR_VIEW_HOLDERS, annotatedElement)
                 return true
             }
             val className = getClassName(annotatedElement)
-            val holders = annotatedElement.getAnnotation(ViewHolders::class.java)
+            val holders = annotatedElement.getAnnotation(BindHolders::class.java)
             for (holder in holders.value.reversed()) {
                 if (!parseViewHolder(className, holder, layoutMap, result)) {
                     error(ERROR_HOLDER_CREATE, annotatedElement)
@@ -53,13 +53,13 @@ class AdapterProcessor : AbstractProcessor() {
                 }
             }
         }
-        for (annotatedElement in roundEnvironment.getElementsAnnotatedWith(ViewHolder::class.java)) {
+        for (annotatedElement in roundEnvironment.getElementsAnnotatedWith(BindHolder::class.java)) {
             if (annotatedElement.kind != ElementKind.CLASS) {
                 error(ERROR_VIEW_HOLDER, annotatedElement)
                 return true
             }
             val className = getClassName(annotatedElement)
-            val holder = annotatedElement.getAnnotation(ViewHolder::class.java)
+            val holder = annotatedElement.getAnnotation(BindHolder::class.java)
             if (!parseViewHolder(className, holder, layoutMap, result)) {
                 error(ERROR_HOLDER_CREATE, annotatedElement)
                 return true
@@ -72,9 +72,9 @@ class AdapterProcessor : AbstractProcessor() {
 
     private fun parseViewHolder(
         className: ClassName,
-        holder: ViewHolder,
+        holder: BindHolder,
         layoutMap: Map<ClassName, Int>,
-        result: HashMap<ClassName, MutableList<ViewHolderInfo>>
+        result: HashMap<ClassName, MutableList<BindHolderInfo>>
     ): Boolean {
         val infoList = result.getOrDefault(className, mutableListOf())
         transform(holder, layoutMap)?.let { info ->
@@ -88,8 +88,8 @@ class AdapterProcessor : AbstractProcessor() {
 
     override fun getSupportedAnnotationTypes() = setOf(
         HolderLayout::class.java.canonicalName,
-        ViewHolder::class.java.canonicalName,
-        ViewHolders::class.java.canonicalName
+        BindHolder::class.java.canonicalName,
+        BindHolders::class.java.canonicalName
     )
 
     override fun getSupportedSourceVersion(): SourceVersion = SourceVersion.latestSupported()
@@ -98,7 +98,7 @@ class AdapterProcessor : AbstractProcessor() {
         messager.printMessage(Diagnostic.Kind.ERROR, message, element)
     }
 
-    private fun transform(holder: ViewHolder, layoutMap: Map<ClassName, Int>): ViewHolderInfo? {
+    private fun transform(holder: BindHolder, layoutMap: Map<ClassName, Int>): BindHolderInfo? {
         try {
             holder.model
         } catch (e: MirroredTypeException) {
@@ -109,7 +109,7 @@ class AdapterProcessor : AbstractProcessor() {
             } else {
                 holder.layout
             }
-            return ViewHolderInfo(className, viewType, layoutId)
+            return BindHolderInfo(className, viewType, layoutId)
         }
         return null
     }
@@ -139,8 +139,8 @@ class AdapterProcessor : AbstractProcessor() {
 
     companion object {
         private const val ERROR_HOLDER_LAYOUT = "Only class can be annotated with HolderLayout"
-        private const val ERROR_VIEW_HOLDERS = "Only class can be annotated with ViewHolders"
-        private const val ERROR_VIEW_HOLDER = "Only class can be annotated with ViewHolder"
-        private const val ERROR_HOLDER_CREATE = "Can't generate ViewHolder"
+        private const val ERROR_VIEW_HOLDERS = "Only class can be annotated with BindHolders"
+        private const val ERROR_VIEW_HOLDER = "Only class can be annotated with BindHolder"
+        private const val ERROR_HOLDER_CREATE = "Can't generate BindHolder"
     }
 }
