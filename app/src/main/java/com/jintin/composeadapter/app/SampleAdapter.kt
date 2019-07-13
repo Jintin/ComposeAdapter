@@ -2,7 +2,7 @@ package com.jintin.composeadapter.app
 
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
-import com.jintin.composeadapter.annotations.HolderLayout
+import com.jintin.composeadapter.annotations.BindLayout
 import com.jintin.composeadapter.annotations.BindHolder
 import kotlinx.android.synthetic.main.item_holder1.view.*
 
@@ -36,7 +36,7 @@ interface StringHolder {
 }
 
 
-@HolderLayout(R.layout.item_holder1)
+@BindLayout(R.layout.item_holder1)
 class ViewHolder1(itemView: View) : RecyclerView.ViewHolder(itemView), StringHolder {
     override fun onBind(string: String) {
         itemView.textView.text = string
