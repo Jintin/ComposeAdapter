@@ -16,8 +16,8 @@ kapt 'com.github.jintin:composeadapter-compiler:0.1.0'
     - You can also mark `@BindLayout` to your ViewHolder with layout id so adapter side can omit.
 2. Change your super class to auto-generated class, name will as same as your current class name plus "Helper".
 ```kotlin
-@BindHolder(model = ViewHolder1::class)
-@BindHolder(layout = R.layout.item_holder2, model = ViewHolder2::class)
+@BindHolder(ViewHolder1::class)
+@BindHolder(ViewHolder2::class, R.layout.item_holder2)
 class SampleAdapter(private val list: List<String>) : SampleAdapterHelper() {
     //...
 }

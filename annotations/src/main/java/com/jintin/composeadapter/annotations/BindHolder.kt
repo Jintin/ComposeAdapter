@@ -8,7 +8,7 @@ import kotlin.reflect.KClass
 @Target(AnnotationTarget.CLASS)
 @Retention(AnnotationRetention.SOURCE)
 @MustBeDocumented
-annotation class BindHolder(val layout: Int = -1, val model: KClass<out Any>)
+annotation class BindHolder(val model: KClass<out Any>, val layout: Int = -1)
 
 @Target(AnnotationTarget.CLASS)
 @Retention(AnnotationRetention.SOURCE)
