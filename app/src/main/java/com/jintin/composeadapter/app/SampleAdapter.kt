@@ -6,8 +6,8 @@ import com.jintin.composeadapter.annotations.BindLayout
 import com.jintin.composeadapter.annotations.BindHolder
 import kotlinx.android.synthetic.main.item_holder1.view.*
 
-@BindHolder(model = ViewHolder1::class)
-@BindHolder(layout = R.layout.item_holder2, model = ViewHolder2::class)
+@BindHolder(ViewHolder1::class)
+@BindHolder(ViewHolder2::class, R.layout.item_holder2)
 class SampleAdapter(private val list: List<String>) : SampleAdapterHelper() {
 
     override fun getItemViewType(position: Int): Int {
