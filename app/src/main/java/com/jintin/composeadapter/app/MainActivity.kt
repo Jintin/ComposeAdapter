@@ -16,8 +16,7 @@ class MainActivity : AppCompatActivity() {
         for (i in 0..100) {
             data.add(i.toString())
         }
-        val adapter = SampleAdapter(data)
         recyclerView.layoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
-        recyclerView.adapter = adapter
+        recyclerView.adapter = SampleAdapter(data)
     }
 }

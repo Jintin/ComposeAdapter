@@ -47,7 +47,7 @@ class AdapterBuilder(
             Modifier.PROTECTED
         ).initializer(index.toString()).build()
 
-    private fun MethodSpec.Builder.generateViewHolderBlock(info: BindHolderInfo) {
+    private fun MethodSpec.Builder.addViewHolderBlock(info: BindHolderInfo) {
         val viewType = info.viewType
         beginControlFlow("case $viewType:")
             .addCode(
@@ -69,7 +69,7 @@ class AdapterBuilder(
             .returns(VIEW_HOLDER)
             .beginControlFlow("switch (viewType)")
         infoList.forEach { info ->
-            methodSpec.generateViewHolderBlock(info)
+            methodSpec.addViewHolderBlock(info)
         }
         methodSpec.addCode("default: throw new RuntimeException(\"Not support type\" + viewType);\n")
         methodSpec.endControlFlow()
@@ -82,8 +82,10 @@ class AdapterBuilder(
 
     companion object {
         private val VIEW_GROUP: ClassName = ClassName.get("android.view", "ViewGroup")
-        private val ADAPTER: ClassName = ClassName.get("androidx.recyclerview.widget", "RecyclerView", "Adapter")
-        private val VIEW_HOLDER: ClassName = ClassName.get("androidx.recyclerview.widget", "RecyclerView", "ViewHolder")
+        private val ADAPTER: ClassName =
+            ClassName.get("androidx.recyclerview.widget", "RecyclerView", "Adapter")
+        private val VIEW_HOLDER: ClassName =
+            ClassName.get("androidx.recyclerview.widget", "RecyclerView", "ViewHolder")
         private val LAYOUT_INFLATER: ClassName = ClassName.get("android.view", "LayoutInflater")
         private val VIEW: ClassName = ClassName.get("android.view", "View")
     }
