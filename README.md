@@ -1,7 +1,7 @@
 # ComposeAdapter
-
-[ ![Download](https://api.bintray.com/packages/jintin/maven/ComposeAdapter-Compiler/images/download.svg) ](https://bintray.com/jintin/maven/ComposeAdapter-Compiler/_latestVersion)
-[ ![Download](https://api.bintray.com/packages/jintin/maven/ComposeAdapter/images/download.svg) ](https://bintray.com/jintin/maven/ComposeAdapter/_latestVersion)
+[![CircleCI](https://circleci.com/gh/Jintin/ComposeAdapter.svg?style=svg)](https://circleci.com/gh/Jintin/ComposeAdapter)
+[![Download](https://api.bintray.com/packages/jintin/maven/ComposeAdapter-Compiler/images/download.svg) ](https://bintray.com/jintin/maven/ComposeAdapter-Compiler/_latestVersion)
+[![Download](https://api.bintray.com/packages/jintin/maven/ComposeAdapter/images/download.svg) ](https://bintray.com/jintin/maven/ComposeAdapter/_latestVersion)
 
 ComposeAdapter is an Android tool to compose your Adapter with various ViewHolder by simple Annotations.
 
